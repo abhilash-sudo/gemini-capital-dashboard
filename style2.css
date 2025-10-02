@@ -1,0 +1,478 @@
+/* --- Global Styles & Variables --- */
+:root {
+    /* Dark Mode (Default) */
+    --background: #0d1117;
+    --foreground: #e6edf3;
+    --muted-foreground: #848d97;
+    --border: rgba(255, 255, 255, 0.1);
+    --card-background: rgba(22, 27, 34, 0.7);
+    --input-background: #010409;
+    --primary: #58a6ff;
+    --positive: #3fb950;
+    --negative: #f85149;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --shadow: rgba(0, 0, 0, 0.2);
+}
+
+body.light-mode {
+    /* Light Mode */
+    --background: #f6f8fa;
+    --foreground: #1f2328;
+    --muted-foreground: #57606a;
+    --border: rgba(0, 0, 0, 0.1);
+    --card-background: rgba(255, 255, 255, 0.7);
+    --input-background: #f0f2f5;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-family);
+    margin: 0;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+/* --- Aurora Background (Global) --- */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: radial-gradient(circle at 20% 20%, hsla(212, 100%, 70%, 0.3), transparent 30%),
+                      radial-gradient(circle at 80% 70%, hsla(260, 100%, 70%, 0.3), transparent 30%);
+    filter: blur(100px);
+    z-index: -1;
+    animation: aurora-flow 20s infinite alternate;
+}
+
+@keyframes aurora-flow {
+    from { transform: rotate(0deg) scale(1.2); }
+    to { transform: rotate(360deg) scale(1.5); }
+}
+
+/* --- General Component Styles (Used Across Pages) --- */
+h1, h2, h3, p, span, div, a {
+    color: var(--foreground);
+    box-sizing: border-box;
+}
+button {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px -2px var(--primary);
+}
+button:hover {
+    background-color: #6fb2ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -2px var(--primary);
+}
+button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 4px -2px var(--primary);
+}
+.card {
+    background-color: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 var(--shadow);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px 0 var(--shadow);
+}
+.fade-in-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+.error-message { color: var(--negative); font-size: 0.875rem; height: 1.2em; text-align: left; margin-top: 0.5rem; }
+.positive { color: var(--positive); }
+.negative { color: var(--negative); }
+.spinner { width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   1. USER LOGIN PAGE STYLES (Scoped to .user-login-page)
+   ========================================================================== */
+.user-login-page .login-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+}
+.user-login-page .login-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+.user-login-page .left-panel {
+    background-color: rgba(0,0,0,0.2);
+}
+.user-login-page .left-panel .panel-content {
+    max-width: 400px;
+    text-align: left;
+}
+.user-login-page .left-panel .logo {
+    font-size: 1.5rem; margin-bottom: 2rem;
+}
+.user-login-page .left-panel h1 {
+    font-size: 2.5rem; line-height: 1.2; margin-bottom: 1rem;
+}
+.user-login-page .right-panel {
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    background-color: var(--card-background);
+}
+.user-login-page .form-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+.user-login-page .form-wrapper h2 { font-size: 1.75rem; text-align: center; margin-bottom: 0.5rem; border: none; padding: 0; }
+.user-login-page .form-wrapper p { text-align: center; margin-bottom: 2rem; color: var(--muted-foreground); }
+.user-login-page .form-wrapper button { width: 100%; padding-top: 0.8rem; padding-bottom: 0.8rem; margin-top: 1rem; }
+.user-login-page .toggle-section { margin-top: 1.5rem; font-size: 0.875rem; color: var(--muted-foreground); text-align: center; }
+.user-login-page .toggle-section a { color: var(--primary); text-decoration: none; font-weight: 600; }
+.user-login-page .admin-login-link { text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.user-login-page .admin-login-link a { font-size: 0.875rem; color: var(--muted-foreground); text-decoration: none; font-weight: 500; }
+
+/* Floating Label Input Styles for User Login */
+.user-login-page .right-panel .input-group { position: relative; margin-bottom: 1.5rem; }
+.user-login-page .right-panel .input-group input {
+    width: 100%; padding: 1rem; background-color: var(--input-background); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--foreground); font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s;
+}
+.user-login-page .right-panel .input-group label {
+    position: absolute; top: 0.9rem; left: 1rem; color: var(--muted-foreground);
+    pointer-events: none; transition: all 0.2s ease-out;
+}
+.user-login-page .right-panel .input-group input:focus { outline: none; border-color: var(--primary); }
+.user-login-page .right-panel .input-group input:focus + label,
+.user-login-page .right-panel .input-group input:not(:placeholder-shown) + label {
+    top: -0.6rem; left: 0.75rem; font-size: 0.75rem; color: var(--primary);
+    background-color: var(--card-background); padding: 0 0.25rem;
+}
+
+/* ==========================================================================
+   2. ADMIN LOGIN PAGE STYLES (Scoped to .admin-login-page)
+   ========================================================================== */
+.admin-login-page {
+    display: flex; justify-content: center; align-items: center; min-height: 100vh;
+}
+.admin-login-page .login-card {
+    background-color: var(--card-background); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem;
+    width: 100%; max-width: 400px; text-align: center; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px 0 var(--shadow);
+}
+.admin-login-page .login-card .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+.admin-login-page .login-card h2 { font-size: 1.75rem; margin: 0.5rem 0; color: var(--foreground); }
+.admin-login-page .login-card p { color: var(--muted-foreground); margin-bottom: 2rem; }
+.admin-login-page .login-card .input-group { position: relative; text-align: left; margin-bottom: 1.5rem; }
+.admin-login-page .login-card button { width: 100%; padding: 0.75rem; margin-top: 1rem; }
+
+/* Floating Label Input Styles for Admin Login */
+.admin-login-page .login-card .input-group input {
+    width: 100%; padding: 1rem; background-color: var(--input-background); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--foreground); font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s;
+}
+.admin-login-page .login-card .input-group label {
+    position: absolute; top: 0.9rem; left: 1rem; color: var(--muted-foreground);
+    pointer-events: none; transition: all 0.2s ease-out;
+}
+.admin-login-page .login-card .input-group input:focus { outline: none; border-color: var(--primary); }
+.admin-login-page .login-card .input-group input:focus + label,
+.admin-login-page .login-card .input-group input:not(:placeholder-shown) + label {
+    top: -0.6rem; left: 0.75rem; font-size: 0.75rem; color: var(--primary);
+    background-color: var(--card-background); padding: 0 0.25rem;
+}
+
+/* ==========================================================================
+   3. MAIN DASHBOARD & PROFILE PAGE STYLES (Scoped to .dashboard-page)
+   ========================================================================== */
+.dashboard-page .main-header {
+    padding: 1rem 2rem; border-bottom: 1px solid var(--border); background-color: var(--card-background);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100;
+}
+.dashboard-page .header-content { max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.dashboard-page .content-wrapper { padding: 1.5rem; max-width: 1600px; margin: 0 auto; }
+.dashboard-page .dashboard-layout { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; }
+.dashboard-page .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+.dashboard-page .main-content { display: flex; flex-direction: column; gap: 1.5rem; perspective: 1500px; }
+.dashboard-page .main-content h1 { font-size: 2rem; font-weight: 700; margin: 0; }
+.dashboard-page .header-controls { display: flex; align-items: center; gap: 1.5rem; }
+.dashboard-page .user-profile { display: flex; align-items: center; gap: 0.75rem; }
+.dashboard-page .logout-button { background-color: var(--border); color: var(--muted-foreground); font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+.dashboard-page .logout-button:hover { background-color: var(--negative); color: white; }
+.dashboard-page .relative { position: relative; }
+.dashboard-page .input-group { flex-grow: 1; margin-bottom: 1rem; }
+.dashboard-page .input-group:last-of-type { margin-bottom: 0; }
+.dashboard-page input[type="text"], .dashboard-page select, .dashboard-page input[type="range"],
+.dashboard-page input[type="password"] {
+    width: 100%; padding: 0.75rem; background-color: var(--input-background); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--foreground); font-size: 1rem; box-sizing: border-box;
+}
+.dashboard-page input[type="range"] { padding: 0; }
+.dashboard-page .search-card-container { z-index: 20; }
+.dashboard-page .suggestions-list {
+    position: absolute; top: calc(100% + 8px); left: 0; right: 0; background-color: var(--card-background);
+    border: 1px solid var(--border); border-radius: 6px; list-style: none; padding: 0.5rem; margin: 0;
+    z-index: 10; max-height: 250px; overflow-y: auto;
+}
+.dashboard-page .suggestions-list:empty { display: none; }
+.dashboard-page .history-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.dashboard-page .history-list button { width: 100%; background-color: var(--input-background); padding: 0.6rem; font-size: 0.875rem; text-align: left; }
+.dashboard-page .theme-switch-wrapper { display: flex; align-items: center; gap: 0.5rem; }
+.dashboard-page .theme-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
+.dashboard-page .theme-switch input { opacity: 0; width: 0; height: 0; }
+.dashboard-page .theme-switch .slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #30363d; transition: .4s; border-radius: 22px;
+}
+.dashboard-page .theme-switch .slider:before {
+    position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+    background-color: white; transition: .4s; border-radius: 50%;
+}
+.dashboard-page input:checked + .slider { background-color: var(--primary); }
+.dashboard-page input:checked + .slider:before { transform: translateX(18px); }
+.dashboard-page .market-data-header { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; padding: 1rem 1.5rem; text-align: center; }
+.dashboard-page .market-item p.loading { font-size: 1rem; color: var(--muted-foreground); }
+.dashboard-page .results-header-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+.dashboard-page .current-price { font-size: 2.5rem; font-weight: 700; margin-top: 0.25rem; display: flex; align-items: center; gap: 1rem; }
+.dashboard-page .price-change { font-size: 1rem; font-weight: 500; }
+.dashboard-page .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: right; }
+.dashboard-page .metric-item label { margin-bottom: 0.25rem; font-size: 0.8rem; color: var(--muted-foreground); }
+.dashboard-page .metric-item p { margin: 0; font-size: 1.5rem; font-weight: 600; }
+.dashboard-page .metric-item .highlight { color: var(--primary); font-size: 1.75rem; }
+.dashboard-page .metric-item.wide { grid-column: 1 / -1; text-align: right; font-size: 0.8rem; color: var(--muted-foreground); }
+.dashboard-page .metric-item.wide strong { color: var(--foreground); }
+.dashboard-page .chart-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.dashboard-page .chart-controls h3 { margin: 0; font-size: 1rem; font-weight: 600; border: none; padding: 0; }
+.dashboard-page .chart-buttons { display: flex; gap: 0.5rem; }
+.dashboard-page .chart-btn { background-color: var(--input-background); color: var(--muted-foreground); border: 1px solid var(--border); padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+.dashboard-page .chart-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+.dashboard-page .chart-container { height: 400px; }
+
+/* Profile Page Styles */
+.dashboard-page .profile-page { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+.dashboard-page .profile-header { display: flex; align-items: center; gap: 2rem; }
+.dashboard-page .profile-picture-container { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.dashboard-page #profile-picture { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border); }
+.dashboard-page .upload-button {
+    padding: 0.5rem 1rem; font-size: 0.8rem; background-color: var(--input-background);
+    color: var(--muted-foreground); border: 1px solid var(--border);
+}
+.dashboard-page .profile-main-info h1 { margin: 0 0 0.5rem 0; font-size: 2rem; border: none; padding: 0; }
+.dashboard-page .profile-main-info p { margin: 0; font-size: 1.1rem; color: var(--muted-foreground); }
+.dashboard-page .feedback-message { margin-top: 1rem; font-weight: 500; height: 1.2em; }
+.dashboard-page .feedback-message.error { color: var(--negative); }
+.dashboard-page .feedback-message.success { color: var(--positive); }
+.dashboard-page .profile-link {
+    display: flex; align-items: center; gap: 0.75rem; text-decoration: none;
+    padding: 0.25rem 0.5rem; border-radius: 6px; transition: background-color 0.2s;
+}
+.dashboard-page .profile-link:hover { background-color: rgba(255, 255, 255, 0.1); }
+.dashboard-page #user-avatar, .dashboard-page .user-profile img { border-radius: 50%; width: 32px; height: 32px; object-fit: cover; }
+.dashboard-page .logo-link { text-decoration: none; }
+
+/* ==========================================================================
+   4. ADMIN PANEL STYLES (Scoped to body.admin-body)
+   ========================================================================== */
+body.admin-body { background: var(--background) !important; }
+.admin-body .admin-container { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+.admin-body .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.admin-body .admin-header .logo { font-size: 1.5rem; }
+.admin-body .admin-nav { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.admin-body .nav-tab {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 0.75rem 1rem; color: var(--muted-foreground); font-weight: 600;
+    cursor: pointer; transition: all 0.2s; box-shadow: none;
+}
+.admin-body .nav-tab:hover { color: var(--foreground); }
+.admin-body .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.admin-body .nav-tab svg { width: 1rem; height: 1rem; margin-right: 0.5rem; }
+.admin-body .admin-view { display: none; }
+.admin-body .admin-view.active-view { display: block; animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.admin-body .admin-metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+.admin-body .metric-card h3 {
+    margin: 0 0 0.5rem 0; font-size: 1rem; font-weight: 500;
+    color: var(--muted-foreground); border: none; padding: 0;
+}
+.admin-body .metric-card p { font-size: 2.5rem; font-weight: 700; color: var(--foreground); margin: 0; }
+.admin-body .table-container { overflow-x: auto; }
+.admin-body table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+.admin-body th, .admin-body td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+.admin-body th { font-weight: 600; color: var(--muted-foreground); }
+.admin-body .delete-btn { background-color: var(--negative); }
+.admin-body .delete-btn:hover { background-color: #c43d35; }
+.admin-body .broadcast-buttons { display: flex; gap: 1rem; }
+.admin-body .action-buttons { display: flex; gap: 0.5rem; }
+.admin-body .action-buttons button { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+.admin-body .promote-btn[disabled] { background-color: var(--border); cursor: not-allowed; box-shadow: none; transform: none; }
+.admin-body .role-badge { padding: 0.2rem 0.6rem; border-radius: 1rem; font-size: 0.75rem; font-weight: 600; }
+.admin-body .role-user { background-color: var(--primary); color: white; }
+.admin-body .role-admin { background-color: var(--positive); color: white; }
+.admin-body .logs-list {
+    list-style: none; padding: 0; margin: 0; max-height: 60vh; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 0.75rem;
+}
+.admin-body .log-item {
+    background-color: var(--input-background); padding: 0.75rem 1rem; border-radius: 6px;
+    display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--muted-foreground);
+}
+.admin-body .log-login_success { border-left-color: var(--positive); }
+.admin-body .log-login_fail { border-left-color: var(--negative); }
+.admin-body .log-signup_success { border-left-color: var(--primary); }
+.admin-body .log-admin_action, .admin-body .log-broadcast_sent, .admin-body .log-broadcast_cleared { border-left-color: #f39c12; }
+.admin-body .log-timestamp { font-size: 0.8rem; color: var(--muted-foreground); flex-shrink: 0; margin-right: 1rem; }
+.admin-body .log-message { flex-grow: 1; }
+.admin-body #broadcast-view .input-group { margin-bottom: 1.5rem; }
+.admin-body #broadcast-view .delete-btn { background-color: var(--muted-foreground); margin-left: 1rem; }
+.admin-body .broadcast-status { margin-top: 1rem; color: var(--positive); font-weight: 500; }
+.broadcast-banner {
+    padding: 0.75rem 1rem; text-align: center; font-weight: 500; font-size: 0.9rem; display: none;
+}
+.broadcast-banner.info { background-color: var(--primary); color: white; }
+.broadcast-banner.success { background-color: var(--positive); color: white; }
+.broadcast-banner.warning { background-color: #f39c12; color: white; }
+.broadcast-banner.error { background-color: var(--negative); color: white; }
+/* ...existing code... */
+
+/* --- Advanced Glassmorphism Effects --- */
+.card, .admin-login-page .login-card, .dashboard-page .main-header, .dashboard-page .sidebar {
+    background: linear-gradient(135deg, rgba(22,27,34,0.85) 60%, rgba(88,166,255,0.08) 100%);
+    box-shadow: 0 8px 32px 0 var(--shadow), 0 1.5px 8px 0 rgba(88,166,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    transition: box-shadow 0.4s, background 0.4s;
+}
+
+/* --- Button Ripple Effect --- */
+button {
+    position: relative;
+    overflow: hidden;
+}
+button::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    pointer-events: none;
+}
+button:active::after {
+    width: 120%;
+    height: 120%;
+    transition: 0s;
+}
+
+/* --- Animated Gradient Border for Cards --- */
+.card, .admin-login-page .login-card {
+    border-image: linear-gradient(90deg, #58a6ff 0%, #3fb950 50%, #f85149 100%);
+    border-image-slice: 1;
+}
+
+/* --- Responsive Enhancements --- */
+@media (max-width: 900px) {
+    .dashboard-page .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-page .sidebar {
+        flex-direction: row;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .dashboard-page .main-header, .dashboard-page .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .user-login-page .login-container {
+        grid-template-columns: 1fr;
+    }
+    .user-login-page .login-panel, .admin-login-page .login-card {
+        padding: 1rem;
+    }
+    .dashboard-page .main-header, .dashboard-page .content-wrapper {
+        padding: 0.5rem;
+    }
+    .dashboard-page .main-content h1 {
+        font-size: 1.3rem;
+    }
+}
+
+/* --- Subtle Card Hover Animation --- */
+.card, .admin-login-page .login-card {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+}
+.card:hover, .admin-login-page .login-card:hover {
+    transform: scale(1.025) translateY(-6px);
+    box-shadow: 0 16px 48px 0 var(--shadow), 0 2px 16px 0 rgba(88,166,255,0.15);
+}
+
+/* --- Animated Aurora Background --- */
+body::before {
+    animation: aurora-flow 20s infinite alternate, aurora-brightness 8s infinite alternate;
+}
+@keyframes aurora-brightness {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+/* --- Floating Label Input Glow --- */
+.input-group input:focus {
+    box-shadow: 0 0 0 2px var(--primary), 0 2px 8px 0 rgba(88,166,255,0.15);
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+    width: 8px;
+    background: var(--input-background);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary) 30%, var(--card-background) 100%);
+    border-radius: 8px;
+}
+
+/* --- Animated Broadcast Banner --- */
+.broadcast-banner {
+    animation: bannerFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes bannerFadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* --- Profile Picture Hover Effect --- */
+.dashboard-page #profile-picture:hover {
+    box-shadow: 0 0 0 4px var(--primary), 0 4px 16px 0 rgba(88,166,255,0.15);
+    transition: box-shadow 0.3s;
+}
+
+/* ...existing code... */

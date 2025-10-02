@@ -1,0 +1,16 @@
+# Node.js dependencies
+/node_modules
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+venv/
+env/
+
+# Sensitive Information - DO NOT COMMIT API KEYS
+# This will ignore your API keys file.
+keys
+
+# OS-generated files
+.DS_Store
+Thumbs.d

@@ -1,0 +1,114 @@
+/* --- ADD THIS TO THE BOTTOM OF YOUR style.css FILE --- */
+
+/* --- Admin Panel Layout --- */
+.admin-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    background-color: var(--card-background);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.admin-sidebar .logo {
+    text-align: center;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.admin-nav .nav-item {
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+.admin-nav .nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.admin-nav .nav-item.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.admin-main-content {
+    padding: 1.5rem;
+}
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.admin-header h1 {
+    border: none;
+    padding: 0;
+}
+
+/* --- Admin Views --- */
+.admin-view {
+    display: none;
+}
+.admin-view.active-view {
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Admin Metrics & Tables --- */
+.admin-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+.metric-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    border: none;
+    padding: 0;
+}
+.metric-card p {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 0;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+th {
+    font-weight: 600;
+    color: var(--muted-foreground);
+}
+.delete-btn {
+    background-color: var(--negative);
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+.delete-btn:hover {
+    background-color: #c43d35;
+}

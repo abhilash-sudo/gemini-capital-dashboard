@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Settings - Gemini Capital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <div class="main-container">
+        <!-- Header Section (Consistent with index.html) -->
+        <header class="main-header">
+            <div class="header-content">
+                <a href="index.html" class="logo-link"><div class="logo">GEMINI CAPITAL</div></a>
+                <div class="header-controls">
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="theme-checkbox">
+                            <input type="checkbox" id="theme-checkbox" />
+                            <div class="slider round"></div>
+                        </label>
+                        <span class="theme-label">Light Mode</span>
+                    </div>
+                    <div class="user-profile">
+                        <span id="user-name-display">Welcome, User</span>
+                        <img id="user-avatar" src="https://i.pravatar.cc/32" alt="User Avatar">
+                        <button id="logout-btn" class="logout-button">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content-wrapper profile-page">
+            <div class="card fade-in-card profile-header">
+                <div class="profile-picture-container">
+                    <img id="profile-picture" src="https://i.pravatar.cc/96" alt="Profile Picture">
+                    <!-- This input is hidden and triggered by the button -->
+                    <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+                    <button id="upload-btn" class="upload-button">Change Photo</button>
+                </div>
+                <div class="profile-main-info">
+                    <h1 id="profile-name">Loading...</h1>
+                    <p id="profile-email">Loading...</p>
+                </div>
+            </div>
+
+            <div class="card fade-in-card">
+                <h2>Change Password</h2>
+                <form id="change-password-form">
+                    <div class="input-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-new-password">Confirm New Password</label>
+                        <input type="password" id="confirm-new-password" required>
+                    </div>
+                    <p id="feedback-message" class="feedback-message"></p>
+                    <button type="submit">Update Password</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="profile.js"></script>
+</body>
+</html>
+

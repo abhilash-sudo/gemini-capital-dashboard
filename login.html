@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gemini Capital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="user-login-page">
+    <div class="login-container">
+        <div class="login-panel left-panel">
+            <div class="panel-content">
+                <div class="logo">GEMINI CAPITAL</div>
+                <h1>Next-Generation Predictive Analysis</h1>
+                <p>Harness the power of machine learning to gain a competitive edge in the financial markets. Welcome to the future of trading.</p>
+            </div>
+        </div>
+
+        <div class="login-panel right-panel">
+            <div id="login-form-container" class="form-wrapper fade-in-card visible">
+                <h2>Welcome Back</h2>
+                <p>Enter your credentials to access your dashboard.</p>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="login-email" required placeholder=" ">
+                        <label for="login-email">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" required placeholder=" ">
+                        <label for="login-password">Password</label>
+                    </div>
+                    <p id="login-error-message" class="error-message"></p>
+                    <button type="submit">Login</button>
+                </form>
+                <div class="toggle-section">
+                    Don't have an account? <a href="#" id="show-signup">Sign Up</a>
+                </div>
+                <div class="admin-login-link">
+                    <a href="admin-login.html">Login as Administrator</a>
+                </div>
+            </div>
+
+            <div id="signup-form-container" class="form-wrapper" style="display: none;">
+                <h2>Create an Account</h2>
+                <p>Fill out the form below to get started.</p>
+                <form id="signup-form">
+                    <div class="input-group">
+                        <input type="text" id="signup-name" required placeholder=" ">
+                        <label for="signup-name">Full Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="signup-email" required placeholder=" ">
+                        <label for="signup-email">Email Address</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="signup-password" required placeholder=" ">
+                        <label for="signup-password">Password</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" required placeholder=" ">
+                        <label for="confirm-password">Confirm Password</label>
+                    </div>
+                    <p id="signup-error-message" class="error-message"></p>
+                    <button type="submit">Create Account</button>
+                </form>
+                <div class="toggle-section">
+                    Already have an account? <a href="#" id="show-login">Log In</a>
+                </div>
+                 <div class="admin-login-link">
+                    <a href="admin-login.html">Login as Administrator</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginContainer = document.getElementById('login-form-container');
+            const signupContainer = document.getElementById('signup-form-container');
+            const showSignupLink = document.getElementById('show-signup');
+            const showLoginLink = document.getElementById('show-login');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+
+            showSignupLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginContainer.style.display = 'none';
+                signupContainer.style.display = 'block';
+            });
+
+            showLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+            });
+
+            // This login form now talks to your Node.js server.
+            loginForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const errorMessage = document.getElementById('login-error-message');
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        // Save the returned user data to session storage
+                        sessionStorage.setItem('currentUser', JSON.stringify(result.user));
+                        // Redirect to the main dashboard
+                        window.location.href = 'index.html';
+                    } else {
+                        errorMessage.textContent = 'Invalid email or password.';
+                    }
+                } catch (error) {
+                    errorMessage.textContent = 'Could not connect to the server.';
+                    console.error('Login fetch error:', error);
+                }
+            });
+
+            // This signup form also talks to your Node.js server.
+            signupForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                const errorMessage = document.getElementById('signup-error-message');
+
+                if (password !== confirmPassword) {
+                    errorMessage.textContent = 'Passwords do not match.';
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password })
+                    });
+
+                    if (response.ok) {
+                        errorMessage.textContent = '';
+                        alert('Registration successful! Please log in.');
+                        document.getElementById('show-login').click();
+                    } else {
+                        const result = await response.json();
+                        errorMessage.textContent = result.message || 'Registration failed.';
+                    }
+                } catch (error) {
+                    errorMessage.textContent = 'Could not connect to the server.';
+                    console.error('Signup fetch error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

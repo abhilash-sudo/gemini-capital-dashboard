@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Gemini Capital</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-login-page">
+    <div class="login-card fade-in-card visible">
+        <div class="logo">GEMINI CAPITAL</div>
+        <h2>Administrator Access</h2>
+        <p>Please enter your administrative credentials.</p>
+        <form id="admin-login-form">
+            <div class="input-group">
+                <input type="text" id="admin-user" required placeholder=" ">
+                <label for="admin-user">Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="admin-pass" required placeholder=" ">
+                <label for="admin-pass">Password</label>
+            </div>
+            <p id="error-message" class="error-message"></p>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('admin-login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            const errorMsg = document.getElementById('error-message');
+
+            // NOTE: In a real application, this would be a secure backend call.
+            // For this prototype, we hardcode the credentials.
+            if (user === 'admin' && pass === 'admin123') {
+                sessionStorage.setItem('isAdmin', 'true'); // Set admin session flag
+                window.location.href = 'admin.html';
+            } else {
+                errorMsg.textContent = 'Invalid admin credentials.';
+            }
+        });
+    </script>
+</body>
+</html>
+
