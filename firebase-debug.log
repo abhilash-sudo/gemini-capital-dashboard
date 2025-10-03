@@ -1,0 +1,156 @@
+[debug] [2025-10-03T05:53:06.468Z] ----------------------------------------------------------------------
+[debug] [2025-10-03T05:53:06.471Z] Command:       D:\node.exe C:\Users\abhil\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init functions
+[debug] [2025-10-03T05:53:06.471Z] CLI Version:   14.16.0
+[debug] [2025-10-03T05:53:06.471Z] Platform:      win32
+[debug] [2025-10-03T05:53:06.471Z] Node Version:  v24.8.0
+[debug] [2025-10-03T05:53:06.472Z] Time:          Fri Oct 03 2025 11:23:06 GMT+0530 (India Standard Time)
+[debug] [2025-10-03T05:53:06.472Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-03T05:53:06.655Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-03T05:53:06.655Z] > authorizing via signed-in user (abhilashsnair09@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\stock prediction using svr\14_StockPredictionusing_SVMREGRESSION\my-final-dashboard
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-10-03T05:53:15.941Z] Using project from CLI flag: stock-prediction-dashboa-17c16
+[debug] [2025-10-03T05:53:15.942Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:53:15.942Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:53:15.943Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 [none]
+[debug] [2025-10-03T05:53:16.844Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 200
+[debug] [2025-10-03T05:53:16.844Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 {"projectId":"stock-prediction-dashboa-17c16","projectNumber":"893151736538","displayName":"stock-prediction-dashboard","name":"projects/stock-prediction-dashboa-17c16","resources":{"hostingSite":"stock-prediction-dashboa-17c16"},"state":"ACTIVE","etag":"1_212addba-6bdb-43e5-a45a-a01cb6e2ea48"}
+[info] i  Using project stock-prediction-dashboa-17c16 (stock-prediction-dashboard) 
+[info] 
+=== Functions Setup
+[debug] [2025-10-03T05:53:17.157Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-03T05:53:17.157Z] > authorizing via signed-in user (abhilashsnair09@gmail.com)
+[debug] [2025-10-03T05:53:17.157Z] [iam] checking project stock-prediction-dashboa-17c16 for permissions ["firebase.projects.get"]
+[debug] [2025-10-03T05:53:17.158Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:53:17.158Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:53:17.158Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions [none]
+[debug] [2025-10-03T05:53:17.158Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions x-goog-quota-user=projects/stock-prediction-dashboa-17c16
+[debug] [2025-10-03T05:53:17.158Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-10-03T05:53:18.532Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions 200
+[debug] [2025-10-03T05:53:18.533Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] 
+Detected existing codebase(s): default
+
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[error] Invalid codebase name. Codebase must be less than 64 characters and can contain only lowercase letters, numeric characters, underscores, and dashes.
+[error] Invalid codebase name. Codebase must be less than 64 characters and can contain only lowercase letters, numeric characters, underscores, and dashes.
+[debug] [2025-10-03T05:56:04.120Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\abhil\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:508:28)
+    at Interface.emit (node:domain:489:12)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1311:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+    at ReadStream.emit (node:events:520:35)
+    at ReadStream.emit (node:domain:489:12)
+    at emitKeys (node:internal/readline/utils:371:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2025-10-03T05:56:13.730Z] ----------------------------------------------------------------------
+[debug] [2025-10-03T05:56:13.732Z] Command:       D:\node.exe C:\Users\abhil\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init functions
+[debug] [2025-10-03T05:56:13.733Z] CLI Version:   14.16.0
+[debug] [2025-10-03T05:56:13.733Z] Platform:      win32
+[debug] [2025-10-03T05:56:13.733Z] Node Version:  v24.8.0
+[debug] [2025-10-03T05:56:13.733Z] Time:          Fri Oct 03 2025 11:26:13 GMT+0530 (India Standard Time)
+[debug] [2025-10-03T05:56:13.733Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-03T05:56:13.925Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-03T05:56:13.925Z] > authorizing via signed-in user (abhilashsnair09@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\stock prediction using svr\14_StockPredictionusing_SVMREGRESSION\my-final-dashboard
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-10-03T05:56:16.339Z] Using project from CLI flag: stock-prediction-dashboa-17c16
+[debug] [2025-10-03T05:56:16.341Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:56:16.341Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:56:16.342Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 [none]
+[debug] [2025-10-03T05:56:16.814Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 200
+[debug] [2025-10-03T05:56:16.815Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/stock-prediction-dashboa-17c16 {"projectId":"stock-prediction-dashboa-17c16","projectNumber":"893151736538","displayName":"stock-prediction-dashboard","name":"projects/stock-prediction-dashboa-17c16","resources":{"hostingSite":"stock-prediction-dashboa-17c16"},"state":"ACTIVE","etag":"1_212addba-6bdb-43e5-a45a-a01cb6e2ea48"}
+[info] i  Using project stock-prediction-dashboa-17c16 (stock-prediction-dashboard) 
+[info] 
+=== Functions Setup
+[debug] [2025-10-03T05:56:16.965Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-10-03T05:56:16.966Z] > authorizing via signed-in user (abhilashsnair09@gmail.com)
+[debug] [2025-10-03T05:56:16.966Z] [iam] checking project stock-prediction-dashboa-17c16 for permissions ["firebase.projects.get"]
+[debug] [2025-10-03T05:56:16.966Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:56:16.966Z] Checked if tokens are valid: true, expires at: 1759474245015
+[debug] [2025-10-03T05:56:16.966Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions [none]
+[debug] [2025-10-03T05:56:16.966Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions x-goog-quota-user=projects/stock-prediction-dashboa-17c16
+[debug] [2025-10-03T05:56:16.966Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-10-03T05:56:18.542Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions 200
+[debug] [2025-10-03T05:56:18.543Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/stock-prediction-dashboa-17c16:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] 
+Detected existing codebase(s): default
+
+[info] Let's create a new codebase for your functions.
+[info] A directory corresponding to the codebase will be created in your project
+[info] with sample code pre-configured.
+
+[info] See https://firebase.google.com/docs/functions/organize-functions for
+[info] more information on organizing your functions using codebases.
+
+[info] Functions can be deployed with firebase deploy.
+
+[error] Invalid codebase name. Codebase must be less than 64 characters and can contain only lowercase letters, numeric characters, underscores, and dashes.
+[error] functions.codebase must be unique but 'default' was used more than once.
+[debug] [2025-10-03T06:04:10.105Z] ExitPromptError: User force closed the prompt with SIGINT
+    at Interface.sigint (C:\Users\abhil\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\@inquirer\core\dist\commonjs\lib\create-prompt.js:101:37)
+    at Interface.emit (node:events:508:28)
+    at Interface.emit (node:domain:489:12)
+    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1311:18)
+    at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+    at ReadStream.emit (node:events:520:35)
+    at ReadStream.emit (node:domain:489:12)
+    at emitKeys (node:internal/readline/utils:371:14)
+    at emitKeys.next (<anonymous>)
+    at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+[error] 
+[error] Error: An unexpected error has occurred.

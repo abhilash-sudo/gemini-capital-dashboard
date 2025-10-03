@@ -17,7 +17,6 @@
         </header>
 
         <main class="admin-main">
-            <!-- Navigation Tabs -->
             <nav class="admin-nav">
                 <button class="nav-tab active" data-view="dashboard-view">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7.5 5.25a2.25 2.25 0 00-2.25 2.25v6a2.25 2.25 0 002.25 2.25h5a2.25 2.25 0 002.25-2.25v-6a2.25 2.25 0 00-2.25-2.25h-5z" /><path d="M5.25 5.25a2.25 2.25 0 012.25-2.25h5a2.25 2.25 0 012.25 2.25V6h-9.5V5.25z" /></svg>
@@ -26,6 +25,9 @@
                 <button class="nav-tab" data-view="users-view">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.095a1.23 1.23 0 00.41-1.412A9.99 9.99 0 0010 12c-2.31 0-4.438.784-6.131 2.095z" /></svg>
                     Users
+                </button>
+                <button class="nav-tab" data-view="stocks-view"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 013.25 3h13.5A2.25 2.25 0 0119 5.25v9.5A2.25 2.25 0 0116.75 17H3.25A2.25 2.25 0 011 14.75v-9.5zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75v-3.69l-2.76-2.07a.75.75 0 00-.94.12l-1.92 2.303-4.998-5.002a.75.75 0 00-1.062 0L3.06 9.12a.75.75 0 00-.94-.12L1.5 9.061z" clip-rule="evenodd" /></svg>
+                    Stocks
                 </button>
                 <button class="nav-tab" data-view="logs-view">
                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
@@ -38,7 +40,6 @@
             </nav>
 
             <div class="tab-content">
-                <!-- Dashboard View -->
                 <div id="dashboard-view" class="admin-view active-view">
                     <div class="admin-metrics-grid">
                         <div class="card metric-card">
@@ -49,31 +50,13 @@
                             <h3>Admin Accounts</h3>
                             <p id="admin-users">0</p>
                         </div>
-                        <div class="card metric-card">
-                            <h3>Total Logins Today</h3>
-                            <p id="total-logins">0</p>
+                         <div class="card metric-card">
+                            <h3>Total Stocks</h3>
+                            <p id="total-stocks">0</p>
                         </div>
-                    </div>
-
-                    <!-- Dashboard Widgets -->
-                    <div class="dashboard-widgets">
-                        <div class="widget-card">
-                            <div class="widget-title">Total Trades</div>
-                            <div class="widget-value">1,245</div>
-                            <div class="widget-trend positive">+12% this week</div>
-                            <div class="widget-icon">📈</div>
-                        </div>
-                        <div class="widget-card">
-                            <div class="widget-title">Active Users</div>
-                            <div class="widget-value">342</div>
-                            <div class="widget-trend negative">-3% today</div>
-                            <div class="widget-icon">👤</div>
-                        </div>
-                        <!-- Add more widgets as needed -->
                     </div>
                 </div>
 
-                <!-- User Management View -->
                 <div id="users-view" class="admin-view">
                     <div class="card">
                         <h2>Registered Users</h2>
@@ -93,7 +76,39 @@
                     </div>
                 </div>
 
-                <!-- System Logs View -->
+                <div id="stocks-view" class="admin-view">
+                    <div class="card">
+                        <h2>Add a New Stock</h2>
+                        <form id="add-stock-form">
+                            <div class="input-group">
+                                <label for="stock-symbol-input">Stock Symbol (e.g., GOOG)</label>
+                                <input type="text" id="stock-symbol-input" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="stock-name-input">Company Name (e.g., Alphabet Inc.)</label>
+                                <input type="text" id="stock-name-input" required>
+                            </div>
+                            <button type="submit" id="add-stock-btn">Add Stock</button>
+                            <p id="stock-status-message" class="status-message"></p>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h2>Current Stock List</h2>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Company Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="current-stocks-table-body">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="logs-view" class="admin-view">
                     <div class="card">
                         <h2>System Event Logs</h2>
@@ -101,7 +116,6 @@
                     </div>
                 </div>
 
-                <!-- Broadcast Message View -->
                 <div id="broadcast-view" class="admin-view">
                     <div class="card">
                         <h2>Send a Site-Wide Broadcast</h2>
@@ -131,4 +145,3 @@
     <script src="admin.js"></script>
 </body>
 </html>
-
