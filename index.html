@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="dashboard-page">
-    <audio id="bg-music" src="Opera GX Background Music - 1 Hour (Active) [9oe32bvwE_M].mp3" autoplay loop></audio>
+    <div id="broadcast-banner" class="broadcast-banner" style="display:none;"></div>
     <div class="music-controls">
         <button id="music-toggle">🔊</button>
     </div>
@@ -21,32 +21,37 @@
             <div class="header-content">
                 <div class="logo">GEMINI CAPITAL</div>
                 <div class="header-controls">
-                    <div class="theme-switch-wrapper">
+                    <!-- Add a subtle shadow and rounded corners to controls -->
+                    <div class="theme-switch-wrapper card" style="padding: 0.5rem 1rem; border-radius: 8px;">
                         <label class="theme-switch" for="theme-checkbox">
                             <input type="checkbox" id="theme-checkbox" />
                             <div class="slider round"></div>
                         </label>
                         <span class="theme-label">Light Mode</span>
                     </div>
-                    <div class="user-profile">
+                    <div class="user-profile card" style="padding: 0.5rem 1rem; border-radius: 8px;">
                         <a href="profile.html" class="profile-link">
                             <span id="user-name-display">Welcome, User</span>
-                            <img id="user-avatar" src="https://i.pravatar.cc/32" alt="User Avatar">
+                            <img id="user-avatar" src="" alt="User Avatar">
                         </a>
                         <button id="logout-btn" class="logout-button">Logout</button>
+                    </div>
+                    <div class="currency-switch-wrapper card" style="padding: 0.5rem 1rem; border-radius: 8px;">
+                        <label class="currency-switch" for="currency-checkbox">
+                            <input type="checkbox" id="currency-checkbox" />
+                            <span id="currency-label">₹ INR</span>
+                        </label>
                     </div>
                 </div>
             </div>
         </header>
 
-        <div id="broadcast-banner" class="broadcast-banner"></div>
-
         <div class="content-wrapper">
             <div class="dashboard-layout">
                 <!-- Sidebar -->
                 <aside class="sidebar">
-                    <div class="card fade-in-card search-card-container">
-                        <h2>Search & Predict</h2>
+                    <div class="card fade-in-card search-card-container" style="box-shadow: 0 8px 32px 0 rgba(88,166,255,0.18);">
+                        <h2 style="font-size: 1.5rem; font-weight: 700;">🔍 Search & Predict</h2>
                         <div class="input-group relative">
                             <label for="stock-symbol">Stock Symbol</label>
                             <input type="text" id="stock-symbol" placeholder="e.g., AAPL" autocomplete="off">
@@ -60,11 +65,11 @@
                             <div class="spinner" id="spinner" style="display: none;"></div>
                         </button>
                     </div>
-                    <div class="card fade-in-card">
-                        <h2>SVR Parameters</h2>
+                    <div class="card fade-in-card" style="box-shadow: 0 8px 32px 0 rgba(63,185,80,0.18);">
+                        <h2>⚙️ SVR Parameters</h2>
                         <div class="input-group">
                             <label for="kernel">Kernel</label>
-                            <select id="kernel">
+                            <select id="svr-kernel">
                                 <option value="rbf">RBF</option>
                                 <option value="linear">Linear</option>
                                 <option value="poly">Polynomial</option>
@@ -72,33 +77,25 @@
                         </div>
                         <div class="input-group">
                             <label for="c_parameter">Regularization (C)</label>
-                            <input type="range" id="c_parameter" min="1" max="200" value="100">
+                            <input type="range" id="svr-c" min="1" max="200" value="100">
+                            <span id="svr-c-value">100</span>
                         </div>
                     </div>
-                    <div class="card fade-in-card">
-                        <h2>Search History</h2>
+                    <div class="card fade-in-card" style="box-shadow: 0 8px 32px 0 rgba(248,81,73,0.18);">
+                        <h2>🕑 Search History</h2>
                         <ul id="history-list" class="history-list"></ul>
                     </div>
-                     <div class="card fade-in-card">
-                        <h2>Trading News</h2>
+                    <div class="card fade-in-card" style="box-shadow: 0 8px 32px 0 rgba(162,89,255,0.18);">
+                        <h2>📰 Trading News</h2>
                         <ul id="news-list" class="news-list">
                             <li class="news-placeholder">Loading news...</li>
                         </ul>
-                    </div>
-                    <div class="card fade-in-card">
-                        <h2>Compare Stocks</h2>
-                        <div class="input-group">
-                            <label for="compare-symbols">Compare Stocks</label>
-                            <select id="compare-symbols" multiple>
-                                <!-- Populate with popularStocks -->
-                            </select>
-                        </div>
                     </div>
                 </aside>
 
                 <!-- Main Content Area -->
                 <main class="main-content">
-                    <div class="card fade-in-card market-data-header">
+                    <div class="card fade-in-card market-data-header" style="display: flex; gap: 2rem; align-items: center;">
                         <div class="market-item">
                             <label>Market Status</label>
                             <p id="market-status" class="loading">Loading...</p>
@@ -113,31 +110,31 @@
                         </div>
                     </div>
                     <div id="results-section" style="display: none;" class="fade-in-card">
-                        <div class="results-header-card">
-                            <div class="company-info">
-                                <h1 id="company-name-display">Apple Inc. (AAPL)</h1>
-                                <div class="current-price">
-                                    <span id="current-price-display">$172.50</span>
-                                    <span id="price-change-display" class="price-change positive">+1.75 (1.02%)</span>
+                        <div class="results-header-card" style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+                            <div class="company-info" style="flex: 2;">
+                                <h1 id="company-name-display" style="font-size: 2.2rem; font-weight: 700;">Apple Inc. (AAPL)</h1>
+                                <div class="current-price" style="margin-top: 0.5rem;">
+                                    <span id="current-price-display" style="font-size: 2.5rem; font-weight: 700;">$172.50</span>
+                                    <span id="price-change-display" class="price-change positive" style="font-size: 1.2rem;">+1.75 (1.02%)</span>
                                 </div>
                             </div>
-                            <div class="metrics-grid">
+                            <div class="metrics-grid" style="flex: 1; min-width: 220px;">
                                 <div class="metric-item"><label>Predicted Price</label><p id="predicted-price-display" class="highlight">$175.45</p></div>
                                 <div class="metric-item"><label>Confidence</label><p id="confidence-display">88.5%</p></div>
                                 <div id="parameters-display" class="metric-item wide"></div>
                             </div>
-                            <div class="extra-metrics">
+                            <div class="extra-metrics" style="width: 100%; display: flex; gap: 2rem; margin-top: 1rem;">
                                 <div><label>Volume:</label> <span id="volume-display">--</span></div>
                                 <div><label>Market Cap:</label> <span id="marketcap-display">--</span></div>
                                 <div><label>PE Ratio:</label> <span id="pe-display">--</span></div>
                             </div>
                         </div>
-                        <div class="card chart-card">
-                            <div class="chart-controls">
-                                <h3>Price Action</h3>
+                        <div class="card chart-card" style="margin-top: 2rem;">
+                            <div class="chart-controls" style="display: flex; justify-content: space-between; align-items: center;">
+                                <h3 style="font-size: 1.1rem;">📊 Price Action</h3>
                                 <div class="chart-buttons">
-                                    <button class="chart-btn active" data-chart-type="line">Line</button>
-                                    <button class="chart-btn" data-chart-type="bar">Bar</button>
+                                    <!-- <button class="chart-btn active" data-chart-type="line">Line</button> -->
+                                    <button class="chart-btn active" data-chart-type="bar">Bar</button>
                                     <button class="chart-btn" data-chart-type="radar">Radar</button>
                                     <button class="chart-btn" data-chart-type="candlestick">Candlestick</button>
                                     <button class="chart-btn" data-chart-type="area">Area</button>
@@ -149,36 +146,37 @@
                             </div>
                         </div>
                     </div>
-                    <div id="placeholder-section" class="card fade-in-card">
-                        <h2>Welcome to Gemini Capital</h2>
-                        <p>Use the control panel on the left to search for a stock symbol and generate a prediction.</p>
+                    <div id="placeholder-section" class="card fade-in-card" style="text-align: center;">
+                        <h2 style="font-size: 2rem;">✨ Welcome to Gemini Capital</h2>
+                        <p style="font-size: 1.1rem;">Use the control panel on the left to search for a stock symbol and generate a prediction.</p>
                     </div>
-                    <div class="dashboard-widgets">
-                        <div class="widget-card">
-                            <div class="widget-title">Total Trades</div>
-                            <div class="widget-value">1,245</div>
+                    <div class="dashboard-widgets" style="display: flex; gap: 2rem; margin-top: 2rem;">
+                        <div class="widget-card" style="flex: 1; background: linear-gradient(135deg, #F1FEC6 60%, #A882DD 100%); color: #222;">
+                            <div class="widget-title" style="font-weight: 600;">Total Trades</div>
+                            <div class="widget-value" style="font-size: 2rem;">1,245</div>
                             <div class="widget-trend positive">+12% this week</div>
-                            <div class="widget-icon">📈</div>
+                            <div class="widget-icon" style="font-size: 2rem;">📈</div>
                         </div>
-                        <div class="widget-card">
-                            <div class="widget-title">Active Users</div>
-                            <div class="widget-value">342</div>
+                        <div class="widget-card" style="flex: 1; background: linear-gradient(135deg, #A882DD 60%, #F1FEC6 100%); color: #222;">
+                            <div class="widget-title" style="font-weight: 600;">Active Users</div>
+                            <div class="widget-value" style="font-size: 2rem;">342</div>
                             <div class="widget-trend negative">-3% today</div>
-                            <div class="widget-icon">👤</div>
+                            <div class="widget-icon" style="font-size: 2rem;">👤</div>
                         </div>
-                        <div class="widget-card">
-                            <div class="widget-title">Social Sentiment</div>
+                        <div class="widget-card" style="flex: 1; background: linear-gradient(135deg, #ffb347 60%, #aec6cf 100%); color: #222;">
+                            <div class="widget-title" style="font-weight: 600;">Social Sentiment</div>
                             <div id="sentiment-score">Loading...</div>
                             <ul id="sentiment-posts"></ul>
                         </div>
                         <!-- Add more widgets as needed -->
                     </div>
-                    <button id="save-favorite-btn">Save to Favorites</button>
+                    <button id="save-favorite-btn" style="margin-top: 2rem;">Save to Favorites</button>
                     <ul id="favorites-list"></ul>
                 </main>
             </div>
         </div>
     </div>
+    <audio id="bg-music" src="Opera GX Background Music - 1 Hour (Active) [9oe32bvwE_M].mp3" autoplay loop></audio>
     <script src="script.js"></script>
     <script>
         let pollingInterval = null;
@@ -192,24 +190,6 @@
             startPolling(symbol);
         });
     </script>
-    <!-- Place inside any widget or header -->
-<svg width="48" height="48" viewBox="0 0 48 48" class="glass-icon">
-  <defs>
-    <linearGradient id="glass-gradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.7"/>
-      <stop offset="100%" stop-color="#fff" stop-opacity="0.3"/>
-    </linearGradient>
-    <filter id="glass-blur" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <circle cx="24" cy="24" r="18" fill="url(#glass-gradient)" filter="url(#glass-blur)" />
-  <text x="24" y="29" text-anchor="middle" font-size="18" fill="#fff" opacity="0.7" font-family="Inter">💧</text>
-</svg>
 </body>
 </html>
 

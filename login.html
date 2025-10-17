@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gemini Capital</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style3.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="user-login-page">
     <div class="login-container">
-        <!-- Left Panel for Branding -->
         <div class="login-panel left-panel">
             <div class="panel-content">
                 <div class="logo">GEMINI CAPITAL</div>
@@ -20,7 +19,6 @@
             </div>
         </div>
 
-        <!-- Right Panel for Forms -->
         <div class="login-panel right-panel">
             <div id="login-form-container" class="form-wrapper fade-in-card visible">
                 <h2>Welcome Back</h2>
@@ -99,7 +97,7 @@
                 loginContainer.style.display = 'block';
             });
 
-            // UPDATED: This login form now uses a relative URL
+            // This login form now talks to your Node.js server.
             loginForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
                 const email = document.getElementById('login-email').value;
@@ -107,7 +105,7 @@
                 const errorMessage = document.getElementById('login-error-message');
 
                 try {
-                    const response = await fetch('/api/login', { // REMOVED http://localhost:5000
+                    const response = await fetch('http://localhost:5000/api/login', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email, password })
@@ -115,7 +113,9 @@
 
                     if (response.ok) {
                         const result = await response.json();
+                        // Save the returned user data to session storage
                         sessionStorage.setItem('currentUser', JSON.stringify(result.user));
+                        // Redirect to the main dashboard
                         window.location.href = 'index.html';
                     } else {
                         errorMessage.textContent = 'Invalid email or password.';
@@ -126,7 +126,7 @@
                 }
             });
 
-            // UPDATED: This signup form now uses a relative URL
+            // This signup form also talks to your Node.js server.
             signupForm.addEventListener('submit', async function(event) {
                 event.preventDefault();
                 const name = document.getElementById('signup-name').value;
@@ -141,7 +141,7 @@
                 }
 
                 try {
-                    const response = await fetch('/api/register', { // REMOVED http://localhost:5000
+                    const response = await fetch('http://localhost:5000/api/register', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ name, email, password })

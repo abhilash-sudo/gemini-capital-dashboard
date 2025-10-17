@@ -1,114 +1,420 @@
-/* --- ADD THIS TO THE BOTTOM OF YOUR style.css FILE --- */
-
-/* --- Admin Panel Layout --- */
-.admin-layout {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    min-height: 100vh;
+/* --- Global Styles & Variables --- */
+:root {
+    /* Dark Mode (Default) */
+    --background: #0d1117;
+    --foreground: #e6edf3;
+    --muted-foreground: #848d97;
+    --border: rgba(255, 255, 255, 0.1);
+    --card-background: rgba(22, 27, 34, 0.7);
+    --input-background: #010409;
+    --primary: #58a6ff;
+    --positive: #3fb950;
+    --negative: #f85149;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --shadow: rgba(0, 0, 0, 0.2);
 }
 
-.admin-sidebar {
-    background-color: var(--card-background);
-    border-right: 1px solid var(--border);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-.admin-sidebar .logo {
-    text-align: center;
+body.light-mode {
+    /* Light Mode */
+    --background: #f6f8fa;
+    --foreground: #1a2330;
+    --muted-foreground: #6b7a90;
+    --border: rgba(0,0,0,0.08);
+    --card-background: rgba(255,255,255,0.95);
+    --input-background: #f0f4fa;
+    --primary: #2563eb;
+    --positive: #1ca672;
+    --negative: #d93a34;
 }
 
-.admin-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-.admin-nav .nav-item {
-    text-decoration: none;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: background-color 0.2s, color 0.2s;
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.6;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
 }
-.admin-nav .nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-.admin-nav .nav-item.active {
-    background-color: var(--primary);
+
+/* --- General Button Styles --- */
+button {
+    cursor: pointer;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
     color: white;
+    background-image: linear-gradient(to right, #F1FEC6, #A882DD);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px 0 rgba(0,0,0,0.1);
 }
 
-.admin-main-content {
-    padding: 1.5rem;
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,0.15);
 }
-.admin-header {
+
+button:disabled {
+    cursor: not-allowed;
+    background-image: none;
+    background-color: var(--muted-foreground);
+    opacity: 0.6;
+}
+
+.card {
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 var(--shadow);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.input-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.input-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--input-background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--foreground);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+}
+
+/* --- Login & Admin Login Page Specific Styles --- */
+.user-login-page, .admin-login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1611095965923-a4b5135e23a3?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+}
+
+.login-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 900px;
+    max-width: 90vw;
+    min-height: 600px;
+    background: var(--card-background);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    backdrop-filter: blur(8.5px);
+    -webkit-backdrop-filter: blur(8.5px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.login-panel {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-panel {
+    color: #fff;
+}
+
+.left-panel .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #fff;
+}
+
+.left-panel h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.left-panel p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.right-panel h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.right-panel p {
+    color: var(--muted-foreground);
+    margin-bottom: 2rem;
+}
+
+.toggle-section {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.toggle-section a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.admin-login-link {
+    text-align: center;
+    margin-top: 1rem;
+}
+.admin-login-link a {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+}
+.error-message {
+    color: var(--negative);
+    font-size: 0.9rem;
+    text-align: center;
+    min-height: 1.2em;
+    margin-bottom: 1rem;
+}
+
+
+/* --- Dashboard Specific Styles --- */
+
+.dashboard-page {
+    padding: 1rem;
+}
+
+.main-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.main-header {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-}
-.admin-header h1 {
-    border: none;
-    padding: 0;
 }
 
-/* --- Admin Views --- */
-.admin-view {
-    display: none;
-}
-.admin-view.active-view {
-    display: block;
-    animation: fadeIn 0.5s ease-out;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Admin Metrics & Tables --- */
-.admin-metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-.metric-card h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--muted-foreground);
-    border: none;
-    padding: 0;
-}
-.metric-card p {
-    font-size: 2.5rem;
+.logo {
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--foreground);
-    margin: 0;
 }
 
-.table-container {
-    overflow-x: auto;
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
+
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
 }
-th, td {
-    padding: 0.75rem 1rem;
-    text-align: left;
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.results-header-card {
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.company-info {
+    margin-bottom: 1.5rem;
+}
+
+.current-price {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+#current-price-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.price-change {
+    font-weight: 600;
+}
+
+.positive { color: var(--positive); }
+.negative { color: var(--negative); }
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.metric-item {
+    background: rgba(0,0,0,0.1);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.metric-item label {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.metric-item p {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.chart-card {
+    height: 400px;
+}
+
+.chart-container {
+    position: relative;
+    height: 100%;
+}
+
+.history-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.history-list button {
+    background: var(--input-background);
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
+}
+/* Revert gradient for small history buttons */
+.history-list button:hover {
+    background-color: var(--border);
+    color: var(--foreground);
+    transform: none;
+    box-shadow: none;
+}
+
+
+.news-list {
+    list-style: none;
+}
+.news-list li {
+    padding: 0.75rem 0;
     border-bottom: 1px solid var(--border);
 }
-th {
-    font-weight: 600;
+.news-list li:last-child {
+    border-bottom: none;
+}
+.news-list a {
+    color: var(--foreground);
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.news-list span {
+    font-size: 0.8rem;
     color: var(--muted-foreground);
 }
-.delete-btn {
-    background-color: var(--negative);
+
+.suggestions-list {
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-background);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 10;
+}
+
+.suggestions-list li button {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: var(--foreground);
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+.suggestions-list li button:hover {
+    background: var(--primary);
+    color: white;
+}
+.relative {
+    position: relative;
+}
+
+.chart-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chart-btn {
+    padding: 0.25rem 0.75rem;
     font-size: 0.8rem;
-    padding: 0.4rem 0.8rem;
+    background: var(--input-background);
+    color: var(--muted-foreground);
+    border: 1px solid var(--border);
 }
-.delete-btn:hover {
-    background-color: #c43d35;
+
+.chart-btn.active {
+    background-image: linear-gradient(to right, #F1FEC6, #A882DD);
+    color: #000;
+    border: 1px solid transparent;
 }
+
+.logout-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+

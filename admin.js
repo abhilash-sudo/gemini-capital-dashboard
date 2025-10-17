@@ -40,20 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Core Functions ---
     
     const populateDashboard = async () => {
-        // NOTE: This now requires endpoints to get all users and all stocks
-        // We will implement GET /api/users next. For now, it might show 0.
-        // const users = await (await fetch('http://localhost:5000/api/users')).json();
+        const users = await (await fetch('http://localhost:5000/api/users')).json();
         const stocks = await (await fetch('http://localhost:5000/api/stocks')).json();
         
-        // totalUsersEl.textContent = users.length;
-        // adminUsersEl.textContent = users.filter(u => u.role === 'admin').length;
+        totalUsersEl.textContent = users.length;
+        adminUsersEl.textContent = users.filter(u => u.role === 'admin').length;
         totalStocksEl.textContent = stocks.length;
-    };
-
-    const populateUserTable = () => {
-        // This will be refactored later to fetch from the server.
-        // For now, it will be empty until we build the GET /api/users endpoint.
-        userTableBody.innerHTML = '<tr><td colspan="4">User management will be connected to the server next.</td></tr>';
     };
 
     // NEW: Function to fetch and display stocks
@@ -82,11 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error fetching stocks:", error);
             currentStocksTableBody.innerHTML = '<tr><td colspan="2">Error loading stocks.</td></tr>';
         }
-    };
-
-    const populateLogs = () => {
-        // This will be refactored later to fetch from a server or will be removed.
-        logsList.innerHTML = '<li class="log-item">Log viewing will be connected to the server.</li>';
     };
 
     // --- Event Listeners ---
@@ -139,9 +126,105 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    sendBroadcastBtn.addEventListener('click', async () => {
+        const message = broadcastMessageInput.value.trim();
+        const type = broadcastTypeSelect.value;
+        if (!message) return;
+        broadcastStatus.textContent = 'Sending...';
+        try {
+            const res = await fetch('http://localhost:5000/api/broadcast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, type })
+            });
+            if (res.ok) {
+                broadcastStatus.textContent = 'Announcement sent!';
+                broadcastStatus.className = 'broadcast-status success';
+            } else {
+                broadcastStatus.textContent = 'Failed to send.';
+                broadcastStatus.className = 'broadcast-status error';
+            }
+        } catch {
+            broadcastStatus.textContent = 'Network error.';
+            broadcastStatus.className = 'broadcast-status error';
+        }
+    });
+    clearBroadcastBtn.addEventListener('click', async () => {
+        broadcastStatus.textContent = 'Clearing...';
+        try {
+            const res = await fetch('http://localhost:5000/api/broadcast', {
+                method: 'DELETE'
+            });
+            if (res.ok) {
+                broadcastStatus.textContent = 'Announcement cleared!';
+                broadcastStatus.className = 'broadcast-status success';
+            } else {
+                broadcastStatus.textContent = 'Failed to clear.';
+                broadcastStatus.className = 'broadcast-status error';
+            }
+        } catch {
+            broadcastStatus.textContent = 'Network error.';
+            broadcastStatus.className = 'broadcast-status error';
+        }
+    });
     // --- Initial Page Load ---
     populateDashboard();
-    populateUserTable();
     fetchAndDisplayStocks(); // Fetch stocks when the page loads
-    populateLogs();
 });
+
+// In admin.js
+async function loadUsers() {
+    const res = await fetch('http://localhost:5000/api/users');
+    const users = await res.json();
+    const userTable = document.getElementById('user-table-body');
+    userTable.innerHTML = '';
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${user.role}</td>
+            <td>
+                <button class="promote-btn" data-email="${user.email}" ${user.role === 'admin' ? 'disabled' : ''}>
+                    Promote to Admin
+                </button>
+            </td>
+        `;
+        userTable.appendChild(row);
+    });
+
+    // Add event listeners to promote buttons
+    document.querySelectorAll('.promote-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const email = btn.getAttribute('data-email');
+            const res = await fetch('http://localhost:5000/api/users/promote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            if (res.ok) {
+                alert('User promoted to admin!');
+                loadUsers(); // Refresh table
+                // Also refresh dashboard metrics
+                if (typeof populateDashboard === 'function') populateDashboard();
+            } else {
+                alert('Failed to promote user.');
+            }
+        });
+    });
+}
+document.addEventListener('DOMContentLoaded', loadUsers);
+
+async function loadLogs() {
+    const res = await fetch('http://localhost:5000/api/logs');
+    const logs = await res.json();
+    // Use logsList instead of logList
+    const logsList = document.getElementById('logs-list');
+    logsList.innerHTML = '';
+    logs.forEach(log => {
+        const li = document.createElement('li');
+        li.textContent = `[${log.timestamp}] ${log.message}`;
+        logsList.appendChild(li);
+    });
+}
+document.addEventListener('DOMContentLoaded', loadLogs);

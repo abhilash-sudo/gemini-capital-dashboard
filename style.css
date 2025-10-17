@@ -16,18 +16,20 @@
 
 body.light-mode {
     /* Light Mode */
-    --background: #f5f7fa;
-    --foreground: #222c3a;
-    --muted: #6b7a90;
-    --primary: #0057ff;
+    --background: #f7f8fa;
+    --foreground: #22223b;
+    --muted-foreground: #6b7a90;
+    --border: #e3e8ee;
+    --card-background: #fff;
+    --input-background: #f1f3f8;
+    --primary: #A882DD;
+    --accent: #F1FEC6;
     --positive: #1ca672;
     --negative: #e53935;
-    --card-bg: rgba(255,255,255,0.85);
-    --glass: rgba(0,0,0,0.04);
     --shadow: 0 8px 32px 0 rgba(0,0,0,0.08);
-    --border: rgba(0,0,0,0.08);
-    --spinner-bg: #0057ff22;
-    --spinner-fg: #0057ff;
+    --spinner-bg: #2563eb22;
+    --spinner-fg: #2563eb;
+    --glass: rgba(0,0,0,0.04);
 }
 
 body {
@@ -65,29 +67,30 @@ h1, h2, h3, p, span, div, a {
     color: var(--foreground);
     box-sizing: border-box;
 }
-button {
-    background-color: var(--primary);
-    color: white;
+button, .chart-btn {
+    background-image: linear-gradient(to right, #F1FEC6, #A882DD);
+    color: #222;
     font-weight: 600;
     border: none;
     border-radius: 8px;
-    padding: 0.75rem 1.5rem;
+    padding: 0.7rem 1.5rem;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px -2px var(--primary);
+    font-size: 1rem;
+    box-shadow: 0 2px 8px -2px #A882DD33;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    outline: none;
+    letter-spacing: 0.03em;
 }
-button:hover {
-    background-color: #6fb2ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px -2px var(--primary);
+button:hover, .chart-btn:hover, .chart-btn.active {
+    background-image: linear-gradient(to right, #A882DD, #F1FEC6);
+    color: #222;
+    box-shadow: 0 4px 16px -2px #A882DD44;
+    transform: translateY(-2px) scale(1.03);
 }
-button:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 4px -2px var(--primary);
+button:active, .chart-btn:active {
+    background: #11336e;
+    color: #fff;
+    transform: scale(0.98);
 }
 .card {
     background-color: var(--card-background);
@@ -285,8 +288,17 @@ button:active {
 .dashboard-page .chart-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
 .dashboard-page .chart-controls h3 { margin: 0; font-size: 1rem; font-weight: 600; border: none; padding: 0; }
 .dashboard-page .chart-buttons { display: flex; gap: 0.5rem; }
-.dashboard-page .chart-btn { background-color: var(--input-background); color: var(--muted-foreground); border: 1px solid var(--border); padding: 0.4rem 0.8rem; font-size: 0.8rem; }
-.dashboard-page .chart-btn.active { background-color: var(--primary); color: white; border-color: var(--primary); }
+.dashboard-page .chart-btn {
+    background: #f0f4fa;
+    color: #2563eb;
+    border: 1px solid #d1d5db;
+    font-weight: 600;
+}
+.dashboard-page .chart-btn.active, .chart-btn:hover {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+}
 .dashboard-page .chart-container { height: 400px; }
 
 /* Profile Page Styles */
@@ -329,7 +341,7 @@ body.admin-body { background: var(--background) !important; }
 .admin-body .nav-tab svg { width: 1rem; height: 1rem; margin-right: 0.5rem; }
 .admin-body .admin-view { display: none; }
 .admin-body .admin-view.active-view { display: block; animation: fadeIn 0.5s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1, transform: translateY(0); } }
 .admin-body .admin-metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
 .admin-body .metric-card h3 {
     margin: 0 0 0.5rem 0; font-size: 1rem; font-weight: 500;
@@ -376,244 +388,184 @@ body.admin-body { background: var(--background) !important; }
 /* ...existing code... */
 
 /* --- Advanced Glassmorphism Effects --- */
-.card, .admin-login-page .login-card, .dashboard-page .main-header, .dashboard-page .sidebar {
-    background: linear-gradient(135deg, rgba(22,27,34,0.85) 60%, rgba(88,166,255,0.08) 100%);
-    box-shadow: 0 8px 32px 0 var(--shadow), 0 1.5px 8px 0 rgba(88,166,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
+.card, .dashboard-page .sidebar, .dashboard-page .main-header {
+    background: rgba(255,255,255,0.18);
+    border-radius: 18px;
+    border: 1.5px solid rgba(255,255,255,0.22);
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18), 0 1.5px 8px 0 rgba(88,166,255,0.10);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     transition: box-shadow 0.4s, background 0.4s;
 }
 
-/* --- Button Ripple Effect --- */
-button {
-    position: relative;
-    overflow: hidden;
+/* Add a subtle gradient for cards in dark mode */
+body:not(.light-mode) .card {
+    background: linear-gradient(135deg, rgba(22,27,34,0.85) 60%, rgba(88,166,255,0.08) 100%);
 }
-button::after {
+
+/* Add a soft white glass for cards in light mode */
+body.light-mode .card {
+    background: rgba(255,255,255,0.92);
+    border: 1.5px solid #e3e8ee;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.06);
+}
+
+/* Widget cards */
+.widget-card {
+    background: rgba(255,255,255,0.22);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px 0 rgba(31,38,135,0.10);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+.widget-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+    transform: translateY(-4px) scale(1.03);
+}
+
+/* Modern input styles */
+input, select {
+    background: rgba(255,255,255,0.7);
+    border: 1.5px solid #e3e8ee;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary, #2563eb22);
+    outline: none;
+}
+
+/* Modern button style */
+button {
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(90deg, var(--primary), #3fb950 80%);
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px -2px var(--primary);
+    transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+button:hover {
+    background: linear-gradient(90deg, #3fb950 10%, var(--primary) 90%);
+    box-shadow: 0 4px 16px -2px var(--primary);
+    transform: translateY(-2px) scale(1.03);
+}
+
+/* Favourites list modern look */
+#favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0;
+    list-style: none;
+}
+#favorites-list li {
+    background: rgba(37,99,235,0.08);
+    color: var(--primary);
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+    border: 1px solid #e3e8ee;
+}
+#favorites-list li:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* Currency Toggle Styles */
+.currency-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.currency-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+    gap: 0.5em;
+}
+
+.currency-switch input[type="checkbox"] {
+    appearance: none;
+    width: 38px;
+    height: 22px;
+    background: #e5e7eb;
+    border-radius: 12px;
+    position: relative;
+    outline: none;
+    transition: background 0.3s;
+    margin: 0;
+    border: 1px solid #bfc9d9;
+}
+
+.currency-switch input[type="checkbox"]:checked {
+    background: #2563eb;
+}
+
+.currency-switch input[type="checkbox"]::before {
     content: '';
     position: absolute;
-    left: 50%; top: 50%;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.3);
-    border-radius: 100%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-    pointer-events: none;
-}
-button:active::after {
-    width: 120%;
-    height: 120%;
-    transition: 0s;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
 }
 
-/* --- Animated Gradient Border for Cards --- */
-.card, .admin-login-page .login-card {
-    border-image: linear-gradient(90deg, #58a6ff 0%, #3fb950 50%, #f85149 100%);
-    border-image-slice: 1;
+.currency-switch input[type="checkbox"]:checked::before {
+    transform: translateX(16px);
 }
 
-/* --- Responsive Enhancements --- */
+#currency-label {
+    font-weight: 600;
+    color: var(--primary, #2563eb);
+    letter-spacing: 0.5px;
+    margin-left: 0.5em;
+    font-size: 1rem;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES FOR RESPONSIVE STYLES
+   ========================================================================== */
 @media (max-width: 900px) {
     .dashboard-page .dashboard-layout {
         grid-template-columns: 1fr;
     }
     .dashboard-page .sidebar {
         flex-direction: row;
+        overflow-x: auto;
         gap: 1rem;
-        margin-bottom: 1.5rem;
     }
-    .dashboard-page .main-header, .dashboard-page .content-wrapper {
-        padding: 1rem;
+    .dashboard-page .main-content {
+        margin-top: 1rem;
     }
 }
-
 @media (max-width: 600px) {
-    .user-login-page .login-container {
-        grid-template-columns: 1fr;
-    }
-    .user-login-page .login-panel, .admin-login-page .login-card {
-        padding: 1rem;
-    }
     .dashboard-page .main-header, .dashboard-page .content-wrapper {
         padding: 0.5rem;
     }
     .dashboard-page .main-content h1 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 }
 
-/* --- Subtle Card Hover Animation --- */
-.card, .admin-login-page .login-card {
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
-}
-.card:hover, .admin-login-page .login-card:hover {
-    transform: scale(1.025) translateY(-6px);
-    box-shadow: 0 16px 48px 0 var(--shadow), 0 2px 16px 0 rgba(88,166,255,0.15);
-}
-
-/* --- Animated Aurora Background --- */
-body::before {
-    animation: aurora-flow 20s infinite alternate, aurora-brightness 8s infinite alternate;
-}
-@keyframes aurora-brightness {
-    from { opacity: 0.8; }
-    to { opacity: 1; }
-}
-
-/* --- Floating Label Input Glow --- */
-.input-group input:focus {
-    box-shadow: 0 0 0 2px var(--primary), 0 2px 8px 0 rgba(88,166,255,0.15);
-}
-
-/* --- Custom Scrollbar --- */
-::-webkit-scrollbar {
-    width: 8px;
-    background: var(--input-background);
-}
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--primary) 30%, var(--card-background) 100%);
-    border-radius: 8px;
-}
-
-/* --- Animated Broadcast Banner --- */
-.broadcast-banner {
-    animation: bannerFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-@keyframes bannerFadeIn {
-    from { opacity: 0; transform: translateY(-10px);}
-    to { opacity: 1; transform: translateY(0);}
-}
-
-/* --- Profile Picture Hover Effect --- */
-.dashboard-page #profile-picture:hover {
-    box-shadow: 0 0 0 4px var(--primary), 0 4px 16px 0 rgba(88,166,255,0.15);
-    transition: box-shadow 0.3s;
-}
-
-/* --- Dashboard Widgets --- */
-.dashboard-widgets {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.widget-card {
-    background: linear-gradient(135deg, var(--card-background) 80%, var(--primary) 100%);
-    border-radius: 16px;
-    box-shadow: 0 8px 32px 0 var(--shadow), 0 1.5px 8px 0 var(--primary);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    padding: 1.5rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    transition: box-shadow 0.3s, transform 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-.widget-card:hover {
-    transform: scale(1.03) translateY(-4px);
-    box-shadow: 0 16px 48px 0 var(--primary), 0 2px 16px 0 var(--shadow);
-}
-
-.widget-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--primary);
-}
-
-.widget-value {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-    color: var(--foreground);
-}
-
-.widget-trend {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.widget-icon {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 2rem;
-    color: var(--primary);
-    opacity: 0.15;
-    pointer-events: none;
-}
-
-@media (max-width: 900px) {
-    .dashboard-widgets {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Example widget colors for positive/negative trends */
-.widget-trend.positive { color: var(--positive); }
-.widget-trend.negative { color: var(--negative); }
-
-.widget-card ul#sentiment-posts {
-    margin: 0.5rem 0 0 0;
-    padding: 0;
-    list-style: none;
-    font-size: 0.95rem;
-}
-.widget-card #sentiment-score {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-/* Music Controls Styles */
-.music-controls {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-}
-.music-controls button {
-    background: var(--card-bg);
-    border: none;
-    border-radius: 50%;
-    padding: 0.7em 1em;
-    font-size: 1.5em;
-    cursor: pointer;
-    box-shadow: 0 2px 8px var(--shadow);
-    color: var(--primary);
-    transition: background 0.2s;
-}
-.music-controls button:hover {
-    background: var(--primary);
-    color: #fff;
-}
-.glass-icon {
-    backdrop-filter: blur(8px) saturate(180%);
-    border-radius: 50%;
-    box-shadow: 0 4px 24px rgba(88,166,255,0.15);
-}
-
-/* Place inside any widget or header */
-.glass-icon {
-    width: 48px;
-    height: 48px;
-    display: inline-block;
+#search-btn svg {
+    width: 20px;
+    height: 20px;
     vertical-align: middle;
-}
-.glass-icon svg {
-    width: 100%;
-    height: 100%;
-}
-.glass-icon circle {
-    transition: transform 0.3s;
-}
-.glass-icon:hover circle {
-    transform: scale(1.1);
+    margin-right: 0.5em;
 }

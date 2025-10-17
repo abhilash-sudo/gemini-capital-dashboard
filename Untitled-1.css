@@ -1,0 +1,119 @@
+/* ...existing code... */
+
+/* --- Advanced Glassmorphism Effects --- */
+.card, .admin-login-page .login-card, .dashboard-page .main-header, .dashboard-page .sidebar {
+    background: linear-gradient(135deg, rgba(22,27,34,0.85) 60%, rgba(88,166,255,0.08) 100%);
+    box-shadow: 0 8px 32px 0 var(--shadow), 0 1.5px 8px 0 rgba(88,166,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    transition: box-shadow 0.4s, background 0.4s;
+}
+
+/* --- Button Ripple Effect --- */
+button {
+    position: relative;
+    overflow: hidden;
+}
+button::after {
+    content: '';
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.3);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+    pointer-events: none;
+}
+button:active::after {
+    width: 120%;
+    height: 120%;
+    transition: 0s;
+}
+
+/* --- Animated Gradient Border for Cards --- */
+.card, .admin-login-page .login-card {
+    border-image: linear-gradient(90deg, #58a6ff 0%, #3fb950 50%, #f85149 100%);
+    border-image-slice: 1;
+}
+
+/* --- Responsive Enhancements --- */
+@media (max-width: 900px) {
+    .dashboard-page .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    .dashboard-page .sidebar {
+        flex-direction: row;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .dashboard-page .main-header, .dashboard-page .content-wrapper {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .user-login-page .login-container {
+        grid-template-columns: 1fr;
+    }
+    .user-login-page .login-panel, .admin-login-page .login-card {
+        padding: 1rem;
+    }
+    .dashboard-page .main-header, .dashboard-page .content-wrapper {
+        padding: 0.5rem;
+    }
+    .dashboard-page .main-content h1 {
+        font-size: 1.3rem;
+    }
+}
+
+/* --- Subtle Card Hover Animation --- */
+.card, .admin-login-page .login-card {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+}
+.card:hover, .admin-login-page .login-card:hover {
+    transform: scale(1.025) translateY(-6px);
+    box-shadow: 0 16px 48px 0 var(--shadow), 0 2px 16px 0 rgba(88,166,255,0.15);
+}
+
+/* --- Animated Aurora Background --- */
+body::before {
+    animation: aurora-flow 20s infinite alternate, aurora-brightness 8s infinite alternate;
+}
+@keyframes aurora-brightness {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+/* --- Floating Label Input Glow --- */
+.input-group input:focus {
+    box-shadow: 0 0 0 2px var(--primary), 0 2px 8px 0 rgba(88,166,255,0.15);
+}
+
+/* --- Custom Scrollbar --- */
+::-webkit-scrollbar {
+    width: 8px;
+    background: var(--input-background);
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary) 30%, var(--card-background) 100%);
+    border-radius: 8px;
+}
+
+/* --- Animated Broadcast Banner --- */
+.broadcast-banner {
+    animation: bannerFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes bannerFadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+/* --- Profile Picture Hover Effect --- */
+.dashboard-page #profile-picture:hover {
+    box-shadow: 0 0 0 4px var(--primary), 0 4px 16px 0 rgba(88,166,255,0.15);
+    transition: box-shadow 0.3s;
+}
+
+/* ...existing code... */

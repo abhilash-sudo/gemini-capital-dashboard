@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -27,13 +28,42 @@ const stockSchema = new mongoose.Schema({
 });
 const Stock = mongoose.model('Stock', stockSchema);
 
+// --- Log Model ---
+const logSchema = new mongoose.Schema({
+    timestamp: { type: Date, default: Date.now },
+    message: { type: String, required: true }
+});
+const Log = mongoose.model('Log', logSchema);
+
+// --- Broadcast Model ---
+const broadcastSchema = new mongoose.Schema({
+    message: String,
+    type: String,
+    timestamp: { type: Date, default: Date.now }
+});
+const Broadcast = mongoose.model('Broadcast', broadcastSchema);
+
 // --- MongoDB Connection ---
-// NOTE: For Render deployment, you should set MONGO_URI as an environment variable in the Render dashboard.
-// This code will use that variable.
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Successfully connected to MongoDB'))
+// This will use the MONGO_URI from Render's environment variables if it exists,
+// otherwise it will fall back to the local database for development.
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/stockapp';
+
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log(`Successfully connected to MongoDB at ${MONGO_URI.startsWith('mongodb+srv') ? 'Atlas Cluster' : 'Local Database'}`))
     .catch(err => console.error('MongoDB connection error:', err));
 
+// --- Logging ---
+const LOG_FILE = 'system.log';
+
+function logEvent(message) {
+    const entry = `[${new Date().toISOString()}] ${message}\n`;
+    fs.appendFile(LOG_FILE, entry, err => {
+        if (err) console.error('Failed to write log:', err);
+    });
+    // Also save to MongoDB
+    const log = new Log({ message });
+    log.save().catch(err => console.error('Failed to save log to DB:', err));
+}
 
 // --- API Routes ---
 
@@ -91,7 +121,9 @@ app.post('/api/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ success: false, message: 'Invalid email or password.' });
         }
+        // After successful login
         console.log(`User logged in: ${email}`);
+        logEvent(`User logged in: ${email}`);
         res.status(200).json({
             success: true,
             user: {
@@ -102,6 +134,7 @@ app.post('/api/login', async (req, res) => {
         });
     } catch (error) {
         console.error('Login error:', error);
+        logEvent(`Error during login for ${email}: ${error.message}`);
         res.status(500).json({ success: false, message: 'Server error during login.' });
     }
 });
@@ -134,7 +167,60 @@ app.post('/api/stocks', async (req, res) => {
     }
 });
 
+// GET /api/users
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error fetching users' });
+    }
+});
+
+// GET /api/logs
+app.get('/api/logs', async (req, res) => {
+    // Return an array of log objects: { timestamp, message }
+    const logs = await Log.find().sort({ timestamp: -1 }).limit(100);
+    res.json(logs);
+});
+
+// POST /api/users/promote
+app.post('/api/users/promote', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const result = await User.updateOne({ email }, { $set: { role: 'admin' } });
+        if (result.modifiedCount > 0) {
+            res.json({ success: true });
+        } else {
+            res.status(404).json({ success: false, message: 'User not found.' });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// GET /api/broadcast
+app.get('/api/broadcast', async (req, res) => {
+    const latest = await Broadcast.findOne().sort({ timestamp: -1 });
+    res.json(latest || {});
+});
+
+// POST /api/broadcast
+app.post('/api/broadcast', async (req, res) => {
+    const { message, type } = req.body;
+    const broadcast = new Broadcast({ message, type });
+    await broadcast.save();
+    res.json({ success: true });
+});
+
+// DELETE /api/broadcast
+app.delete('/api/broadcast', async (req, res) => {
+    await Broadcast.deleteMany({});
+    res.json({ success: true });
+});
+
 // --- Start the Server ---
 // This will use the PORT environment variable from Render, or default to 5000 for local development
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
